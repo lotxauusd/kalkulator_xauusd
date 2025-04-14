@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Lot XAUUSD</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f3f3f3;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kalkulator Lot XAUUSD</h2>
+    <label>Modal ($):</label>
+    <input type="number" id="modal" placeholder="Contoh: 5000" />
+
+    <label>Risk (%):</label>
+    <input type="number" id="risk" placeholder="Contoh: 1" />
+
+    <label>Stop Loss (pips):</label>
+    <input type="number" id="pips" placeholder="Contoh: 210" />
+
+    <button onclick="hitungLot()">Hitung Lot</button>
+
+    <div class="result" id="hasil"></div>
+  </div>
+
+  <script>
+    function hitungLot() {
+      const modal = parseFloat(document.getElementById('modal').value);
+      const risk = parseFloat(document.getElementById('risk').value);
+      const pips = parseFloat(document.getElementById('pips').value);
+
+      if (isNaN(modal) || isNaN(risk) || isNaN(pips)) {
+        document.getElementById('hasil').innerText = "Mohon isi semua kolom dengan benar.";
+        return;
+      }
+
+      // Pip value XAUUSD per 1 lot biasanya = $1 per 0.1 lot
+      const pipValuePerLot = 1; // Untuk 0.1 lot XAUUSD, pip value = $1
+      const riskUSD = modal * (risk / 100);
+      const lotSize = riskUSD / (pips * pipValuePerLot);
+      const roundedLot = (lotSize / 0.1).toFixed(1) * 0.1; // Dibulatkan ke kelipatan 0.1
+
+      document.getElementById('hasil').innerText = `Ukuran Lot: ${roundedLot.toFixed(2)} lot untuk XAUUSD (emas)`;
+    }
+  </script>
+</body>
+</html>
